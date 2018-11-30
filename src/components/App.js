@@ -1,11 +1,11 @@
 import React from 'react';
-import Sketch1 from './Sketch1'
+import GameOfLife from './GameOfLife'
 import '../styles/App.css';
 
 class App extends React.Component {
 	render() {
 		return (
-			<Sketch1 />
+			<GameOfLife />
 		);
   }
 }
