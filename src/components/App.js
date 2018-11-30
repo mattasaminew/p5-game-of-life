@@ -1,13 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
+import P5Sketch from './P5Sketch'
+import {
+	setup,
+	draw,
+	init,
+	mousePressed,
+	generate
+} from '../sketches/sketch1'
 import '../styles/App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-				Hello World
-      </div>
-    );
+class App extends React.Component {
+	render() {
+		const mapSketchConfigToProps = {
+			setup,
+			draw,
+			init,
+			mousePressed,
+			generate
+		}
+
+		return (
+			<div className="App" ref="App">
+				<P5Sketch sketchConfig={mapSketchConfigToProps} />
+			</div>
+		);
   }
 }
 
