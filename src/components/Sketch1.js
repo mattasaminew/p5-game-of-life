@@ -17,8 +17,13 @@ const Sketch1 = () => {
 		generate
 	}
 
+	const style = {
+		width: '100vw',
+		height: '100vh'
+	}
+
 	return(
-		<P5Sketch sketchConfig={mapSketchConfigToProps} />
+		<P5Sketch sketchConfig={mapSketchConfigToProps} style={style} />
 	)
 }
 

@@ -1,9 +1,9 @@
-const backgroundColor = 'teal'
-const foregroundColor = 'purple'
+const backgroundColor = 'aliceblue'
+const foregroundColor = 'lightgrey'
 
 export const setup = (sketch) => () => {
 	sketch.createCanvas(window.innerWidth, window.innerHeight);
-	sketch.cellWidth = 6;
+	sketch.cellWidth = 4;
 	// Calculate columns and rows
 	sketch.columns = Math.round(sketch.width/sketch.cellWidth);
 	sketch.rows = Math.round(sketch.height/sketch.cellWidth);
