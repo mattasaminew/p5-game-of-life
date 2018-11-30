@@ -1,6 +1,9 @@
+const backgroundColor = 'teal'
+const foregroundColor = 'purple'
+
 export const setup = (sketch) => () => {
 	sketch.createCanvas(window.innerWidth, window.innerHeight);
-	sketch.cellWidth = 5;
+	sketch.cellWidth = 6;
 	// Calculate columns and rows
 	sketch.columns = Math.floor(sketch.width/sketch.cellWidth);
 	sketch.rows = Math.floor(sketch.height/sketch.cellWidth);
@@ -22,8 +25,8 @@ export const draw = (sketch) => () => {
 	sketch.generate();
 	for ( var i = 0; i < sketch.columns;i++) {
 		for ( var j = 0; j < sketch.rows; j++) {
-			if ((sketch.board[i][j] === 1)) sketch.fill(0);
-			else sketch.fill(255);
+			if ((sketch.board[i][j] === 1)) sketch.fill(sketch.color(foregroundColor));
+			else sketch.fill(sketch.color(backgroundColor));
 			sketch.stroke(0);
 			sketch.rect(i*sketch.cellWidth, j*sketch.cellWidth, sketch.cellWidth-1, sketch.cellWidth-1);
 		}
