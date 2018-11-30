@@ -19,7 +19,8 @@ const Sketch1 = () => {
 
 	const style = {
 		width: '100vw',
-		height: '100vh'
+		height: '100vh',
+		overflow: 'hidden'
 	}
 
 	return(
