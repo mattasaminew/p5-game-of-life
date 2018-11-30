@@ -5,8 +5,8 @@ export const setup = (sketch) => () => {
 	sketch.createCanvas(window.innerWidth, window.innerHeight);
 	sketch.cellWidth = 6;
 	// Calculate columns and rows
-	sketch.columns = Math.floor(sketch.width/sketch.cellWidth);
-	sketch.rows = Math.floor(sketch.height/sketch.cellWidth);
+	sketch.columns = Math.round(sketch.width/sketch.cellWidth);
+	sketch.rows = Math.round(sketch.height/sketch.cellWidth);
 	// Wacky way to make a 2D array is JS
 	sketch.board = new Array(sketch.columns);
 	for (var i = 0; i < sketch.columns; i++) {
@@ -27,8 +27,8 @@ export const draw = (sketch) => () => {
 		for ( var j = 0; j < sketch.rows; j++) {
 			if ((sketch.board[i][j] === 1)) sketch.fill(sketch.color(foregroundColor));
 			else sketch.fill(sketch.color(backgroundColor));
-			sketch.stroke(0);
-			sketch.rect(i*sketch.cellWidth, j*sketch.cellWidth, sketch.cellWidth-1, sketch.cellWidth-1);
+			sketch.noStroke(0);
+			sketch.rect(i*sketch.cellWidth, j*sketch.cellWidth, sketch.cellWidth, sketch.cellWidth);
 		}
 	}
 }
