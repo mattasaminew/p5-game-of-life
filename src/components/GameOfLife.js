@@ -6,9 +6,9 @@ import {
 	init,
 	mousePressed,
 	generate
-} from '../sketches/sketch1'
+} from '../sketches/game-of-life'
 
-const Sketch1 = () => {
+const GameOfLife = () => {
 	const mapSketchConfigToProps = {
 		setup,
 		draw,
@@ -28,4 +28,4 @@ const Sketch1 = () => {
 	)
 }
 
-export default Sketch1;
+export default GameOfLife;
