@@ -19,7 +19,8 @@ class P5Sketch extends React.Component {
 	}
 
 	initializeSketch = (sketch) => {
-		sketch.setup = this.props.sketchConfig.setup ? this.props.sketchConfig.setup(sketch) : this.defaultSetup(sketch)
+		sketch.createCanvas(100, 100);
+		sketch.canvas.id = this.canvasId
 
 		Object.keys(this.props.sketchConfig).forEach((key) => (sketch[key] = this.props.sketchConfig[key](sketch)))
 	}
