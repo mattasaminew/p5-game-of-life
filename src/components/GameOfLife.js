@@ -3,18 +3,14 @@ import P5Sketch from './P5Sketch'
 import {
 	setup,
 	draw,
-	init,
-	mousePressed,
-	generate
+	mousePressed
 } from '../sketches/game-of-life'
 
 const GameOfLife = () => {
 	const mapSketchConfigToProps = {
 		setup,
 		draw,
-		init,
-		mousePressed,
-		generate
+		mousePressed
 	}
 
 	const style = {
