@@ -1,19 +1,19 @@
 // =================== CONSTANTS ===================
 
 const CELL_WIDTH = 4
-const BACKGROUND_COLOR = 'aliceblue'
-const FOREGROUND_COLOR = 'lightgrey'
+const FIRST_COLOR = '#f0f8ff'
+const SECOND_COLOR = '#ffefee'
+const THIRD_COLOR = '#e9eadd'
 
 // =================== HELPERS ===================
 
-const deadCellColor = (sketch) => (sketch.color(BACKGROUND_COLOR))
-const aliveCellColor = (sketch) => (sketch.color(FOREGROUND_COLOR))
-
 const cellColor = (sketch, cellCol, cellRow) => {
-	if (sketch.currentBoard[cellCol][cellRow] === 1) {
-		return aliveCellColor(sketch)
+	if (sketch.currentBoard[cellCol][cellRow] === 2) {
+		return sketch.color(SECOND_COLOR)
+	} else if (sketch.currentBoard[cellCol][cellRow] === 1) {
+		return sketch.color(FIRST_COLOR)
 	} else {
-		return deadCellColor(sketch)
+		return sketch.color(THIRD_COLOR)
 	}
 }
 
@@ -34,14 +34,14 @@ const fillCell = (sketch, cellCol, cellRow) => {
 	sketch.rect(colOffset, rowOffset, CELL_WIDTH, CELL_WIDTH);
 }
 
-const isAnEdgeCell = (col, row, { columns, rows }) => {
-	return col === 0 || row === 0 || col === columns-1 || row === rows-1
+const inBounds = (checkCol, checkRow, col, row) => {
+	return 0 <= checkCol && checkCol < col && 0 <= checkRow && checkRow < row
 }
 
 const initializeSketch = (sketch) => {
 	for (var col = 0; col < sketch.columns; col++) {
 		for (var row = 0; row < sketch.rows; row++) {
-			sketch.currentBoard[col][row] = isAnEdgeCell(col, row, sketch) ? 0 : Math.round(Math.random());
+			sketch.currentBoard[col][row] = Math.floor(Math.random() * Math.floor(3));
 
 			sketch.nextBoard[col][row] = 0;
 		}
@@ -51,12 +51,16 @@ const initializeSketch = (sketch) => {
 }
 
 // Score of all neighboring cells
-const neighborScore = (currentBoard, cellCol, cellRow) => {
+const neighborScore = ({ currentBoard, columns, rows }, cellCol, cellRow) => {
 	let score = -currentBoard[cellCol][cellRow]
 
 	for (let offsetCol = -1; offsetCol <= 1; offsetCol++) {
 		for (let offsetRow = -1; offsetRow <= 1; offsetRow++) {
-			score += currentBoard[cellCol+offsetCol][cellRow+offsetRow]
+			let checkCol = cellCol+offsetCol
+			let checkRow = cellRow+offsetRow
+			if (inBounds(checkCol, checkRow, columns, rows)) {
+				score += currentBoard[checkCol][checkRow]
+			}
 		}
 	}
 
@@ -64,21 +68,27 @@ const neighborScore = (currentBoard, cellCol, cellRow) => {
 }
 
 const rulesOfLife = (currentCell, score) => {
-	let nextCell
-	let cellAlive = currentCell === 1
-
-	if 			(cellAlive && score < 2) 		{ nextCell = 0 } //Loneliness
-	else if (cellAlive && score > 3) 		{ nextCell = 0 } //Overpopulation
-	else if (!cellAlive && score === 3) { nextCell = 1 } //Reproduction
-	else 																	nextCell = currentCell //Stasis
-
-	return nextCell
+	if (currentCell === 0) {
+		if (score > 2) {
+			if (score > 6) { return 2 }
+			return 1
+		}
+	} else if (currentCell === 1) {
+		if (score < 8) { return 0 }
+		if (score >= 15) { return 2 }
+	} else {
+		if (score < 12) {
+			if (score > 8) { return 0 }
+			return 1
+		}
+	}
+	return currentCell
 }
 
 const incrementGeneration = (sketch) => {
 	for (var col = 1; col < sketch.columns - 1; col++) {
 		for (var row = 1; row < sketch.rows - 1; row++) {
-			let score = neighborScore(sketch.currentBoard, col, row)
+			let score = neighborScore(sketch, col, row)
 			sketch.nextBoard[col][row] = rulesOfLife(sketch.currentBoard[col][row], score)
 		}
 	}
