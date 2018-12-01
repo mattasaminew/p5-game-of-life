@@ -1,9 +1,9 @@
 // =================== CONSTANTS ===================
 
 const CELL_WIDTH = 4
-const FIRST_COLOR = '#f0f8ff'
-const SECOND_COLOR = '#ffefee'
-const THIRD_COLOR = '#e9eadd'
+const FIRST_COLOR = 'dimgray'
+const SECOND_COLOR = 'slategray'
+const THIRD_COLOR = 'darkslategray'
 
 // =================== HELPERS ===================
 
@@ -34,14 +34,14 @@ const fillCell = (sketch, cellCol, cellRow) => {
 	sketch.rect(colOffset, rowOffset, CELL_WIDTH, CELL_WIDTH);
 }
 
-const inBounds = (checkCol, checkRow, col, row) => {
-	return 0 <= checkCol && checkCol < col && 0 <= checkRow && checkRow < row
+const isAnEdgeCell = (col, row, { columns, rows }) => {
+	return col === 0 || row === 0 || col === columns-1 || row === rows-1
 }
 
 const initializeSketch = (sketch) => {
 	for (var col = 0; col < sketch.columns; col++) {
 		for (var row = 0; row < sketch.rows; row++) {
-			sketch.currentBoard[col][row] = Math.floor(Math.random() * Math.floor(3));
+			sketch.currentBoard[col][row] = isAnEdgeCell(col, row, sketch) ? 0 : Math.floor(Math.random() * Math.floor(3));;
 
 			sketch.nextBoard[col][row] = 0;
 		}
@@ -58,9 +58,7 @@ const neighborScore = ({ currentBoard, columns, rows }, cellCol, cellRow) => {
 		for (let offsetRow = -1; offsetRow <= 1; offsetRow++) {
 			let checkCol = cellCol+offsetCol
 			let checkRow = cellRow+offsetRow
-			if (inBounds(checkCol, checkRow, columns, rows)) {
-				score += currentBoard[checkCol][checkRow]
-			}
+			score += currentBoard[checkCol][checkRow]
 		}
 	}
 
@@ -74,11 +72,11 @@ const rulesOfLife = (currentCell, score) => {
 			return 1
 		}
 	} else if (currentCell === 1) {
-		if (score < 8) { return 0 }
-		if (score >= 15) { return 2 }
+		if (score < 10) { return 0 }
+		if (score >= 14) { return 2 }
 	} else {
 		if (score < 12) {
-			if (score > 8) { return 0 }
+			if (score > 10) { return 0 }
 			return 1
 		}
 	}
