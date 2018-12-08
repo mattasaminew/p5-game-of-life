@@ -1,10 +1,6 @@
 import React from 'react';
 import P5Sketch from './P5Sketch'
-import {
-	setup,
-	draw,
-	mousePressed
-} from '../sketches/game-of-life'
+import { setup, draw, mousePressed } from '../sketches/gameOfLife'
 
 const GameOfLife = () => {
 	const mapSketchConfigToProps = {
